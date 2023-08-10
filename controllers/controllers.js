@@ -1,58 +1,52 @@
-const Reserva = require("../models/Reserva");
+const trabajo = require("../models/trabajo");
 const ctrl = {};
 
-ctrl.renderListaReservas = (req, res) => {
-  res.render("listadoReserva");
+ctrl.renderListatrabajo = (req, res) => {
+  res.render("listadotrabajo");
 };
 
-ctrl.renderFormNuevaReserva = (req, res) => {
-  res.render("nuevaReserva");
+ctrl.renderFormNuevatrabajo = (req, res) => {
+  res.render("nuevatrabajo");
 };
 
-ctrl.renderFormEditarReserva = (req, res) => {
+ctrl.renderFormEditar = (req, res) => {
   const { id } = req.params;
-  res.render("editarReserva", { id });
+  res.render("editartrabajo", { id });
 };
 
-// ==========================================
-//         Rutas para CRUD de reservas
-// ==========================================
-
-// Obtener todas las reservas de la tabla reservas
-// SELECT * FROM reservas WHERE estado=true
-ctrl.obtenerReservas = async (req, res) => {
+ctrl.obtener = async (req, res) => {
   try {
-    const reservas = await Reserva.findAll({
+    const trabajo = await trabajo.findAll({
       where: {
         estado: true,
       },
     });
 
-    return res.json(reservas);
+    return res.json(trabajo);
   } catch (error) {
-    console.log("Error al obtener las reservas", error);
+    console.log("Error al obtener los trabajos", error);
     return res.status(500).json({
-      message: "Error al obtener las reservas",
+      message: "Error al obtener los trabajos",
     });
   }
 };
 
-// Obtener los datos de una reserva a través de la Primary Key (Pk)
-ctrl.obtenerReserva = async (req, res) => {
+// Obtener los datos de una trabajo a través de la Primary Key (Pk)
+ctrl.obtenertrabajo = async (req, res) => {
   try {
     const { id } = req.params;
-    const reserva = await Reserva.findByPk(id);
-    return res.json(reserva);
+    const trabajo = await trabajo.findByPk(id);
+    return res.json(trabajo);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
-      message: "Error al obtener la reserva",
+      message: "Error al obtener los trabajos",
     });
   }
 };
 
-// Crear una reserva
-ctrl.crearReserva = async (req, res) => {
+// Crearuna trabajo
+ctrl.creartrabajo = async (req, res) => {
   const {
     nombre,
     apellido,
@@ -61,11 +55,11 @@ ctrl.crearReserva = async (req, res) => {
     cantidad_personas,
     telefono,
     email,
-  } = req.body; // JSON.stringify(reserva);
+  } = req.body;
 
   try {
-    // Se crea una nueva instancia de reserva
-    const nuevaReserva = new Reserva({
+    // Se crea una nueva instancia
+    const nuevatrabajo = new trabajo({
       nombre,
       apellido,
       fecha_ingreso,
@@ -77,43 +71,43 @@ ctrl.crearReserva = async (req, res) => {
     });
 
     // Se guarda en la BD
-    await nuevaReserva.save();
+    await nuevatrabajo.save();
 
-    return res.status(201).json({ message: "Reserva creada con éxito" });
+    return res.status(201).json({ message: "creada con éxito" });
   } catch (error) {
-    console.log("Error al crear la reserva", error);
-    return res.status(500).json({ message: "Error al crear la reserva" });
+    console.log("Error al crear", error);
+    return res.status(500).json({ message: "Error al crear" });
   }
 };
 
-// Actualizar una reserva
-ctrl.actualizarReserva = async (req, res) => {
+// Actualizar
+ctrl.actualizartrabajo = async (req, res) => {
   try {
     const { id } = req.params;
-    const reserva = await Reserva.findByPk(id);
-    await reserva.update(req.body);
+    const trabajo = await trabajo.findByPk(id);
+    await trabajo.update(req.body);
     return res.json({
-      message: "Reserva actualizada exitosamente",
+      message: "trabajo actualizada exitosamente",
     });
   } catch (error) {
-    console.log("Error al actualizar la reserva", error);
+    console.log("Error al actualizar", error);
     return res.status(500).json({
-      message: "Error al actualizar la reserva",
+      message: "Error al actualizar",
     });
   }
 };
 
-// Eliminar una reserva de forma lógica
-ctrl.eliminarReserva = async (req, res) => {
+// Eliminar de forma lógica
+ctrl.eliminartrabajo = async (req, res) => {
   const { id } = req.params;
   try {
-    const reserva = await Reserva.findByPk(id);
-    await reserva.update({ estado: false });
-    return res.json({ message: "Reserva se eliminó correctamente" });
+    const trabajo = await trabajo.findByPk(id);
+    await trabajo.update({ estado: false });
+    return res.json({ message: "se eliminó correctamente" });
   } catch (error) {
-    console.log("Error al eliminar la reserva", error);
+    console.log("Error al eliminar", error);
     return res.status(500).json({
-      message: "Error al eliminar la reserva",
+      message: "Error al eliminar",
     });
   }
 };

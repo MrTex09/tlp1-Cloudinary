@@ -1,15 +1,15 @@
 const obtenerDatos = async () => {
-  // Pedir las reservas al servidor
+  // Pedir las trabajo al servidor
   const data = await fetch("http://localhost:4002/api", {
     method: "GET",
   });
-  const reservas = await data.json();
-  return reservas;
+  const trabajo = await data.json();
+  return trabajo;
 };
 
-const mostrarReservas = (reservas, tablaElement) => {
+const mostrartrabajo = (trabajo, tablaElement) => {
   let registros = "";
-  reservas.forEach((reserva) => {
+  trabajo.forEach((reserva) => {
     registros += `
         <tr>
             <td>${reserva.codigo}</td>
@@ -49,8 +49,8 @@ const eliminarReserva = async (e) => {
 };
 
 document.addEventListener("DOMContentLoaded", async () => {
-  // Mostrar las reservas en la tabla
-  const tbody = document.querySelector("#listadoReservas");
-  const reservas = await obtenerDatos(); // undefined si no obtenerDatos no retorna nada
-  mostrarReservas(reservas, tbody);
+  // Mostrar las trabajo en la tabla
+  const tbody = document.querySelector("#listadotrabajo");
+  const trabajo = await obtenerDatos(); // undefined si no obtenerDatos no retorna nada
+  mostrartrabajo(trabajo, tbody);
 });
